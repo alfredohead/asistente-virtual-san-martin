@@ -1,40 +1,22 @@
-# Asistente Virtual Municipalidad de San Martín
+# Asistente Humano - Backend
 
-Este proyecto integra WhatsApp, Dialogflow y Firebase, desplegado en Fly.io. También puede conectarse con un frontend en Netlify.
+Este backend se encarga de recibir mensajes del operador humano y enviarlos al número del usuario a través del bot de WhatsApp.
 
-## Estructura del Proyecto
+## Endpoints
 
-- `index.js`: Código principal del bot.
-- `credentials/firebase.json`: Archivo de credenciales (NO subir a GitHub).
-- `fly.toml`: Configuración para desplegar en Fly.io.
-- `Dockerfile`: Imagen de contenedor Node.js.
+### POST /operator/send
 
-## Despliegue en Fly.io
+Envía un mensaje al usuario.
 
-1. Iniciá tu proyecto:
-```bash
-flyctl launch
+**Body esperado**:
+```json
+{
+  "number": "5492615551234",
+  "message": "Hola, ¿en qué puedo ayudarte?"
+}
 ```
 
-2. Desplegá:
-```bash
-flyctl deploy
-```
+## Variables de entorno
 
-3. Puerto por defecto: 8080
+- `FIREBASE_JSON`: Credenciales JSON en base64
 
-## Firebase y Dialogflow
-
-- Firebase debe tener habilitado Firestore.
-- Dialogflow debe estar conectado al fulfillment.
-- El archivo `credentials/firebase.json` debe estar completo y válido.
-
-## Frontend opcional
-
-- Podés agregar una carpeta `/public` y alojarla en Netlify.
-- El bot escucha en `/webhook` y responde en `/`.
-
-## Seguridad
-
-- Nunca subas `credentials/firebase.json` a GitHub.
-- Asegurate de incluir `.gitignore` en esa carpeta.
