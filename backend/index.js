@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const { Telegraf } = require("telegraf");
-const axios = require("axios");
 const app = express();
 
 app.use(cors());
@@ -18,16 +17,17 @@ try {
   firebaseData = JSON.parse(decoded);
 } catch (error) {
   console.error("❌ Error parsing FIREBASE_JSON_BASE64:", error.message);
-  process.exit(1);
+  process.exit(1); // ❗ termina el proceso si la config no es válida
 }
 
-// Aquí puedes usar `firebaseData` para inicializar Firebase si es necesario
+// Aquí podrías inicializar Firebase con `firebaseData` si lo necesitas.
 
 app.get("/", (req, res) => {
-  res.send("🚀 Backend para asistente humano desplegado correctamente!");
+  res.send("🟢 Backend activo en Fly.io!");
 });
 
 const PORT = process.env.PORT || 3000;
+// 👇 Esto es CRÍTICO: escuchar en 0.0.0.0
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Servidor escuchando en http://0.0.0.0:${PORT}`);
 });
