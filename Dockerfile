@@ -1,11 +1,19 @@
-FROM node:18
+# Imagen base con Node.js LTS
+FROM node:20
 
+# Crear directorio de trabajo
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# Copiar backend y frontend
+COPY backend ./backend
+COPY frontend ./frontend
 
-COPY . .
+# Entrar al backend y frontend, instalar dependencias y compilar React
+RUN cd frontend && npm install && npm run build
+RUN cd backend && npm install
 
-EXPOSE 8080
-CMD ["npm", "start"]
+# Definir puerto
+EXPOSE 3000
+
+# Ejecutar backend
+CMD ["node", "backend/index.js"]
