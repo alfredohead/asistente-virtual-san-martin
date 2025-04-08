@@ -1,42 +1,34 @@
-
-const express = require('express');
-const cors = require('cors');
-const { initializeApp, cert } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
-
+const express = require("express");
+const cors = require("cors");
+const { Telegraf } = require("telegraf");
+const axios = require("axios");
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-// DEBUG: Mostrar longitud del env base64
-const base64Str = process.env.FIREBASE_JSON_BASE64;
-console.log("📦 FIREBASE_JSON_BASE64 length:", base64Str?.length);
+const BOT_TOKEN = process.env.API_KEY;
+const bot = new Telegraf(BOT_TOKEN);
 
-if (!base64Str) {
-    console.error("❌ FIREBASE_JSON_BASE64 is missing or empty.");
-    process.exit(1);
-}
+const FIREBASE_CONFIG = process.env.FIREBASE_JSON_BASE64;
 
-let firebaseConfig;
+let firebaseData;
 try {
-    firebaseConfig = JSON.parse(Buffer.from(base64Str, 'base64').toString('utf8'));
+  const decoded = Buffer.from(FIREBASE_CONFIG, "base64").toString("utf8");
+  firebaseData = JSON.parse(decoded);
 } catch (error) {
-    console.error("❌ Error parsing FIREBASE_JSON_BASE64:", error.message);
-    process.exit(1);
+  console.error("❌ Error parsing FIREBASE_JSON_BASE64:", error.message);
+  process.exit(1);
 }
 
-initializeApp({
-    credential: cert(firebaseConfig)
-});
+// Aquí puedes usar `firebaseData` para inicializar Firebase si es necesario
 
-const db = getFirestore();
-
-app.get('/', (req, res) => {
-    res.send('🔥 Firebase app is running');
+app.get("/", (req, res) => {
+  res.send("🚀 Backend para asistente humano desplegado correctamente!");
 });
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Backend corriendo en http://0.0.0.0:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Servidor escuchando en http://0.0.0.0:${PORT}`);
 });
+
