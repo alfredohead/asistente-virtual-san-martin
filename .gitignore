@@ -3,3 +3,4 @@ node_modules/
 backend/.env
 node_modules/
 credentials/.DS_Store
+credentials/firebase.json
