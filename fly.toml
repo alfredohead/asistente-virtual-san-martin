@@ -1,13 +1,10 @@
 app = "asistente-backend"
 
 [build]
- builder = "paketobuildpacks/builder:base"
+  dockerfile = "./Dockerfile"
 
 [env]
   PORT = "3000"
-
-[experimental]
-  auto_rollback = true
 
 [[services]]
   internal_port = 3000

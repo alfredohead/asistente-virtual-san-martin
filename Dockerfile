@@ -1,19 +1,17 @@
-# Imagen base con Node.js LTS
-FROM node:20
+# Usa una imagen oficial de Node
+FROM node:18
 
-# Crear directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiar backend y frontend
-COPY backend ./backend
-COPY frontend ./frontend
+# Copia los archivos del proyecto
+COPY . .
 
-# Entrar al backend y frontend, instalar dependencias y compilar React
-RUN cd frontend && npm install && npm run build
-RUN cd backend && npm install
+# Instala las dependencias
+RUN npm install
 
-# Definir puerto
+# Expone el puerto (debe coincidir con tu app: 3000)
 EXPOSE 3000
 
-# Ejecutar backend
-CMD ["node", "backend/index.js"]
+# Arranca la app en modo módulo
+CMD ["node", "index.js"]
