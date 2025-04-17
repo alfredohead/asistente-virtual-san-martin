@@ -1,22 +1,22 @@
-import express from 'express';
-
+// 📁 backend/routes/auth.js
+const express = require('express');
 const router = express.Router();
 
-router.get('/operator', (req, res) => {
-  res.json({ message: 'Operador funcionando correctamente 🎯' });
-});
+// Operadores hardcodeados desde variables de entorno
+const operadores = [
+  { usuario: process.env.OPERADOR1_USER, password: process.env.OPERADOR1_PASS },
+  { usuario: process.env.OPERADOR2_USER, password: process.env.OPERADOR2_PASS }
+];
 
-router.post('/operator', (req, res) => {
-  const { nombre, rol } = req.body;
+router.post('/login', (req, res) => {
+  const { usuario, password } = req.body;
+  const valido = operadores.find(op => op.usuario === usuario && op.password === password);
 
-  if (!nombre || !rol) {
-    return res.status(400).json({ error: 'Faltan campos requeridos' });
+  if (valido) {
+    res.json({ token: Buffer.from(usuario).toString('base64') });
+  } else {
+    res.status(401).json({ error: 'Credenciales inválidas' });
   }
-
-  res.status(201).json({
-    message: 'Operador procesado correctamente',
-    data: { nombre, rol },
-  });
 });
 
-export default router;
+module.exports = router;

@@ -1,1 +1,12 @@
-// Placeholder content for frontend/main.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './index.css'; // Opcional: estilos globales
+
+// Renderizar la aplicación principal
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
